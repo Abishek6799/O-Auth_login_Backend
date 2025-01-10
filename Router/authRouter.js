@@ -10,7 +10,7 @@ router.post("/login",login)
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:id/:token", resetPassword);
 
-const frontend = "http://localhost:5174"
+const frontend = "https://stunning-blancmange-791742.netlify.app"
 
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 router.get(

@@ -50,7 +50,7 @@ export const forgotPassword = async (req, res) => {
             return res.status(400).json({ message: "User Not Found" });
         }
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        const resetPasswordLink = `http://localhost:5174/reset-password/${user._id}/${token}`;  
+        const resetPasswordLink = `https://stunning-blancmange-791742.netlify.app/reset-password/${user._id}/${token}`;  
         const emailSend = await sendMail({
             to:user.email,
             subject:'Reset Password',
