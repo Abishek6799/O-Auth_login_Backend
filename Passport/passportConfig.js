@@ -5,7 +5,7 @@ import { Strategy as GithubStrategy } from "passport-github2";
 import User from "../Model/userModel.js";
 
 
-const backendUrl = `http://localhost:4000`;
+const backendUrl = `https://o-auth-login-backend.onrender.com`;
 passport.use(
   new GoogleStrategy(
     {
