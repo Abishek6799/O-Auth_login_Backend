@@ -5,14 +5,14 @@ import { Strategy as GithubStrategy } from "passport-github2";
 import User from "../Model/userModel.js";
 
 
-const backendUrl = `https://o-auth-login-backend.onrender.com`;
+const backendUrl = "https://o-auth-login-backend.onrender.com";
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: `${backendUrl}/api/auth/google/callback`,
-      scope: ["profile", "email"],
+      // scope: ["profile", "email"],
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -20,7 +20,7 @@ passport.use(
         if (!user) {
           user = await User.create({
             name: profile.displayName,
-            email: profile.emails[0].value,
+            email: profile.emails[0].value || "",
             googleId: profile.id,
           });
         }
@@ -37,18 +37,18 @@ passport.use(
         clientID: process.env.FACEBOOK_CLIENT_ID,
         clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
         callbackURL: `${backendUrl}/api/auth/facebook/callback`,
-        profileFields: ["id", "displayName","emails"],
-        enableProof: true
+        profileFields: ["id", "displayName","email"],
+        // enableProof: true
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          const email = profile.emails && profile.emails[0]?.value ? profile.emails[0].value : null;
+          const email = profile.emails && profile.emails[0]?.value || "";
           let user = await User.findOne({ facebookId: profile.id });
           if (!user) {
             user = await User.create({
               name: profile.displayName,
               facebookId: profile.id,
-              email: email || null,
+              email: email,
             })
             
           }

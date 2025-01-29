@@ -22,13 +22,13 @@ router.get(
     res.redirect(`${frontend}/oauth/callback?token=${token}`);
   }
 );
-router.get("/facebook", passport.authenticate("facebook", { scope: ["public_profile"] })); 
+router.get("/facebook", passport.authenticate("facebook", { scope: ["email", "public_profile"] })); 
 router.get(
   "/facebook/callback",
   passport.authenticate("facebook", { failureRedirect: frontend }),
   (req, res) => {
     const user = req.user;
-    const token = jwt.sign({id:user._id,facebookId:user.facebookId},process.env.JWT_SECRET,{expiresIn:"1h"});
+    const token = jwt.sign({id:user._id,facebookId:user.facebookId,email:user.email},process.env.JWT_SECRET,{expiresIn:"1h"});
     res.redirect(`${frontend}/oauth/callback?token=${token}`);
   }
 );
